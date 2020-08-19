@@ -1,9 +1,15 @@
 unit IdWebSocketServer;
+
 interface
+
 {$I wsdefines.pas}
+
 uses
-  System.Classes, IdStreamVCL, IdGlobal, IdWinsock2, IdHTTPServer, IdContext,
-  IdCustomHTTPServer, IdHTTPWebBrokerBridge, IdIOHandlerWebSocket,
+  idStackConsts, System.Classes, IdStreamVCL, IdGlobal,
+  IdHTTPServer, IdContext,
+  IdCustomHTTPServer,
+  {$IFDEF WEBSOCKETBRIDGE}  IdHTTPWebBrokerBridge,{$ENDIF}
+  IdIOHandlerWebSocket,
   IdServerIOHandlerWebSocket, IdServerWebSocketContext,
   IdServerWebSocketHandling, IdServerSocketIOHandling, IdWebSocketTypes,
   IdIIOHandlerWebSocket;
@@ -109,7 +115,7 @@ begin
   // default 2s write timeout
   // http://msdn.microsoft.com/en-us/library/windows/desktop/ms740532(v=vs.85).aspx
   try
-    AContext.Connection.Socket.Binding.SetSockOpt(SOL_SOCKET, SO_SNDTIMEO, WriteTimeout);
+    AContext.Connection.Socket.Binding.SetSockOpt(ID_SOL_SOCKET, ID_SO_SNDTIMEO, WriteTimeout);
   except
     // Some Lunux, eg Ubuntu, can't accept setting of WriteTimeout
   end;

@@ -160,7 +160,10 @@ uses
   Winapi.Windows,
 {$ENDIF}
 {$IF DEFINED(POSIX)}
-  Posix.SysSocket, Posix.Fcntl, FMX.Platform,
+  Posix.SysSocket, Posix.Fcntl,
+{$IFDEF DEFINED(ANDROID) or DEFINED(MACOS)}
+  FMX.Platform,
+{$ENDIF}
 {$ENDIF}
   System.StrUtils, System.DateUtils,
   IdWebSocketConsts, IdURI, IdIOHandlerWebSocketSSL, IdIPAddress,
@@ -1020,7 +1023,7 @@ begin
       LStreamEvent.Clear;
 
       // first is the data type TWSDataType(text or bin), but is ignore/not needed
-      LWSCode := TWSDataCode(IOHandler.ReadLongWord);
+      LWSCode := TWSDataCode(IOHandler.ReadUint32);
       if not (LWSCode in [wdcText, wdcBinary, wdcPing, wdcPong]) then
       begin
         // Sleep(0);

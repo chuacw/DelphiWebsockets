@@ -139,7 +139,10 @@ uses
 {$IF DEFINED(MSWINDOWS)}
   Winapi.Windows, IdWinsock2,
 {$ELSEIF DEFINED(POSIX)}
-  Posix.SysSocket, FMX.Platform,
+  Posix.SysSocket,
+{$IFDEF DEFINED(ANDROID) or DEFINED(MACOS)}
+  FMX.Platform,
+{$ENDIF}
 {$ENDIF}
   IdStream, IdStack, IdExceptionCore, IdResourceStrings, IdResourceStringsCore,
   IdStackConsts, WSDebugger, IdWebSocketConsts;
@@ -697,12 +700,12 @@ begin
         {$ENDIF}
 
         //first write the data code (text or binary, ping, pong)
-        FInputBuffer.Write(LongWord(Ord(wscode)));
+        FInputBuffer.Write(Uint32(Ord(wscode)));
         //we write message size here, vbuffer is written after this. This way we can use ReadStream to get 1 single message (in case multiple messages in FInputBuffer)
         if LargeStream then
           FInputBuffer.Write(Int64(Result))
         else
-          FInputBuffer.Write(LongWord(Result))
+          FInputBuffer.Write(Uint32(Result))
       except
         FClosedGracefully := True; //closed (but not gracefully?)
         raise;
@@ -1221,7 +1224,8 @@ begin
          // IO error ; probably connexion closed by peer on protocol error ?
          {$IFDEF DEBUG_WS}
          if DebugHook > 0 then
-           OutputDebugString(PChar(Format('WriteError ThrID:%d, L:%d, R:%d',[getcurrentthreadid,Length(bData)-ioffset,Result])));
+           OutputDebugString(PChar(Format('WriteError ThrID:%d, L:%d, R:%d',[TThread.CurrentThread.ThreadID,Length(bData)-ioffset,Result])));
+
          {$ENDIF}
          break;
        end;

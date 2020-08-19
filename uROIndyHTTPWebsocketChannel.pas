@@ -276,7 +276,7 @@ begin
         begin
           aResponse.Size := 0;  //clear
           //first is the data type TWSDataType(text or bin), but is ignore/not needed
-          wscode := TWSDataCode(IndyClient.IOHandler.ReadLongWord);
+          wscode := TWSDataCode(IndyClient.IOHandler.ReadUint32);
           //next the size + data = stream
           IndyClient.IOHandler.ReadStream(aResponse);
           //ignore ping/pong messages
@@ -399,7 +399,7 @@ procedure TROIndyWSMultiChannelReadThread_old.ReadFromAllChannels;
                 strmEvent.Clear;
 
                 //first is the data type TWSDataType(text or bin), but is ignore/not needed
-                wscode := TWSDataCode(chn.IndyClient.IOHandler.ReadLongWord);
+                wscode := TWSDataCode(chn.IndyClient.IOHandler.ReadUint32);
                 //next the size + data = stream
                 chn.IndyClient.IOHandler.ReadStream(strmEvent);
 

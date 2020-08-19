@@ -75,8 +75,11 @@ uses
 {$IF DEFINED(MSWINDOWS)}
   Winapi.Windows,
 {$ELSE}
+{$IFDEF DEFINED(ANDROID) or DEFINED(MACOS)}
   FMX.Platform,
 {$ENDIF}
+{$ENDIF}
+
   WSDebugger;
 
 var

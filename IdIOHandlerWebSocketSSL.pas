@@ -150,7 +150,10 @@ uses
 {$IF DEFINED(MSWINDOWS)}
   Winapi.Windows,
 {$ELSE}
-  IdSSLOpenSSLHeaders, FMX.Platform,
+  IdSSLOpenSSLHeaders,
+{$IFDEF DEFINED(ANDROID) or DEFINED(MACOS)}
+  FMX.Platform,
+{$ENDIF}
 {$ENDIF}
   System.IOUtils, System.DateUtils, IdStackConsts, IdWebSocketConsts;
 
@@ -846,12 +849,12 @@ begin
         {$ENDIF}
 
         // first write the data code (text or binary, ping, pong)
-        FInputBuffer.Write(LongWord(Ord(wscode)));
+        FInputBuffer.Write(Uint32(Ord(wscode)));
         // we write message size here, vbuffer is written after this. This way we can use ReadStream to get 1 single message (in case multiple messages in FInputBuffer)
         if LargeStream then
           FInputBuffer.Write(Int64(Result))
         else
-          FInputBuffer.Write(LongWord(Result))
+          FInputBuffer.Write(Uint32(Result))
       except
         FClosedGracefully := True; // closed (but not gracefully?)
         raise;

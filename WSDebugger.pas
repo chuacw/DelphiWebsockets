@@ -65,15 +65,21 @@ begin
 {$IF DEFINED(DEBUG) OR DEFINED(DEBUG_WS) OR DEFINED(CHECKSPEED)}
   LDateTime := FormatDateTime('hh:nn:ss', Now);
   LMsg := Format('%s - %s', [LDateTime, AMsg]);
-  {$IF DEFINED(MSWINDOWS) OR DEFINED(DEBUG_WS)}
-  Winapi.Windows.OutputDebugString(PChar(LMsg));
-  {$ENDIF}
-  {$IF DEFINED(ANDROID)}
-   if TPlatformServices.Current.SupportsPlatformService(IFMXLoggingService, LLogService) then
-     begin
-       LLogService.Log('%s', [LMsg]);
-     end;
-  {$ENDIF}
+  {$IF DEFINED(DEBUG_WS)}
+    {$IF DEFINED(MSWINDOWS)}
+    Winapi.Windows.OutputDebugString(PChar(LMsg));
+    {$ELSE}
+      {$IF DEFINED(ANDROID)}
+       if TPlatformServices.Current.SupportsPlatformService(IFMXLoggingService, LLogService) then
+         begin
+           LLogService.Log('%s', [LMsg]);
+         end;
+      {$ENDIF}
+      {$IF DEFINED(LINUX)}
+        Writeln(lMsg);
+      {$ENDIF}
+    {$ENDIF}
+   {$ENDIF}
 {$ENDIF}
 end;
 
@@ -90,14 +96,19 @@ begin
     Exit;
 {$IF DEFINED(DEBUG) OR DEFINED(DEBUG_WS) OR DEFINED(CHECKSPEED)}
   LMsg := Format('%d: %d', [Number, Elapsed]);
-  {$IF DEFINED(MSWINDOWS) OR DEFINED(DEBUG_WS)}
-  Winapi.Windows.OutputDebugString(PChar(LMsg));
-  {$ENDIF}
-  {$IF DEFINED(ANDROID)}
-   if TPlatformServices.Current.SupportsPlatformService(IFMXLoggingService, LLogService) then
-     begin
-       LLogService.Log('%s', [LMsg]);
-     end;
+  {$IF DEFINED(DEBUG_WS)}
+    {$IF DEFINED(MSWINDOWS) }
+    Winapi.Windows.OutputDebugString(PChar(LMsg));
+    {$ENDIF}
+    {$IF DEFINED(ANDROID)}
+     if TPlatformServices.Current.SupportsPlatformService(IFMXLoggingService, LLogService) then
+       begin
+         LLogService.Log('%s', [LMsg]);
+       end;
+    {$ENDIF}
+    {$IF DEFINED(LINUX)}
+    Writeln(lMsg);
+    {$ENDIF}
   {$ENDIF}
 {$ENDIF}
 end;

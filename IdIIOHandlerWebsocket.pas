@@ -31,7 +31,6 @@ type
     function  GetOnNotifyClosing: TProc;
     function  HasData: Boolean;
     procedure Lock;
-    function  ReadLongWord(AConvert: Boolean = True): UInt32;
     procedure ReadStream(AStream: TStream; AByteCount: TIdStreamSize = -1;
       AReadUntilDisconnect: Boolean = False);
     function  Readable(AMSec: Integer = IdTimeoutDefault): Boolean;

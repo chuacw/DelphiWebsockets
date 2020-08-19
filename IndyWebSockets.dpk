@@ -1,0 +1,57 @@
+package IndyWebSockets;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  IndyCore,
+  IndyProtocols,
+  IndySystem,
+  inet;
+
+contains
+  IdHTTPWebsocketClient in 'IdHTTPWebsocketClient.pas',
+  IdIIOHandlerWebsocket in 'IdIIOHandlerWebsocket.pas',
+  IdIOHandlerWebsocket in 'IdIOHandlerWebsocket.pas',
+  IdIOHandlerWebSocketSSL in 'IdIOHandlerWebSocketSSL.pas',
+  IdServerBaseHandling in 'IdServerBaseHandling.pas',
+  IdServerIOHandlerWebsocket in 'IdServerIOHandlerWebsocket.pas',
+  IdServerIOHandlerWebsocketSSL in 'IdServerIOHandlerWebsocketSSL.pas',
+  IdServerSocketIOHandling in 'IdServerSocketIOHandling.pas',
+  IdServerWebsocketContext in 'IdServerWebsocketContext.pas',
+  IdServerWebsocketHandling in 'IdServerWebsocketHandling.pas',
+  IdSocketIOHandling in 'IdSocketIOHandling.pas',
+  IdWebSocketConsts in 'IdWebSocketConsts.pas',
+  IdWebsocketServer in 'IdWebsocketServer.pas',
+  IdWebsocketServerSSL in 'IdWebsocketServerSSL.pas',
+  IdWebSocketTypes in 'IdWebSocketTypes.pas',
+  Portable.Threads in 'Portable.Threads.pas',
+  WSDebugger in 'WSDebugger.pas',
+  WSMultiReadThread in 'WSMultiReadThread.pas';
+
+end.
